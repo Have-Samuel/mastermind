@@ -37,3 +37,26 @@ class Game
     end
   end
 end
+
+# Board class instantiates PlayerMaker and playerBreaker classes
+# and has methods for setting instance variables, evaluating guesses, winners and executing the game
+
+class Board
+  include Masmind
+  attr_accessor :maker_board, :breaker, @turn_count
+
+  def initialize
+    @maker_board = []
+    @breaker_board = []
+    @winner = false
+    @match = 0
+    @partial = 0
+    @player_breaker = PlayerBreaker.new
+    @player_maker = PlayerMaker.new
+    puts 'Enter 1 to be the code breaker or 2 to be the code maker:'
+    @play_method = gets.chomp
+    @turn_count = 1
+  end
+
+
+end
