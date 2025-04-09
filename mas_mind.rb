@@ -58,5 +58,15 @@ class Board
     @turn_count = 1
   end
 
+  # if player is breaker, set instance variables and call player_input method
+  def player_is_breaker
+    @breaker_board = @player_breaker.player_input_code
+  end
 
+  # if player is maker, set instance variables and call player_input method
+  def player_is_maker
+    @maker_board = @player_maker.player_input_code
+  end
+
+  
 end
