@@ -105,4 +105,64 @@ class Board
     puts "Partial: #{@partial}"
     puts "\r\n"
   end
+
+  # Determine if there is a winner
+  def result
+    case @player_choice
+    when '1'
+      if @winner == true
+        puts 'Congratulations, you solved it!'
+      else
+        puts "The code was #{@maker_board.join}. Better luck next time!"
+      end
+    else
+      if @winner == true
+        puts 'THe machine figured out your code!'
+      else
+        puts 'You beat the machine!'
+      end
+    end
+  end
+
+  # Determine which play method to execute
+  def decide_play_method
+    case @player_choice
+    when '1'
+      play_player_breaker
+    else play_player_maker
+    end
+  end
+
+  # Execute if player is code maker
+  def play_player_breaker
+    computer_maker
+    until @turn_count >= 13 
+      puts "Turn: #{@turncount}"
+      @player_breaker.player_input
+      player_is_breaker
+      check_winner
+      check_match_partial
+      @turn_count += 1
+    end
+    result
+  end
+
+  # Execute if player is code maker
+  def play_player_maker
+    @player_maker.player_input
+    @player_maker.first_guess
+    check_match_partial
+    @turn_count += 1
+    until @turn_count >= 13
+      puts "Turn: #{@turncount}"
+      @player_maker.solve
+      player_is_maker
+      check_winner
+      check_match_partial
+      @turn_count += 1
+      sleep(0.25)
+    end
+    result
+  end
 end
+
