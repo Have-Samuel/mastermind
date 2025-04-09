@@ -129,11 +129,12 @@ class Board
     case @player_choice
     when '1'
       play_player_breaker
-    else play_player_maker
+    else
+      play_player_maker
     end
   end
 
-  # Execute if player is code maker
+  # Execute if player is code breaker
   def play_player_breaker
     computer_maker
     until @turn_count >= 13
@@ -201,12 +202,12 @@ class PlayerMaker
   def solve
     new_guess = []
     i = 0
-    while i <= 3 do
-      if @player_input_code[i] == @ai_input_code[i]
-        new_guess << @player_input_code[i]
-      else
-        new_guess << Masmind::RANGE.sample
-      end
+    while i <= 3
+      new_guess << if @player_input_code[i] == @ai_input_code[i]
+                     @player_input_code[i]
+                   else
+                     Masmind::RANGE.sample
+                   end
       i += 1
     end
     @ai_input_code = new_guess
