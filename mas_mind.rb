@@ -136,7 +136,7 @@ class Board
   # Execute if player is code maker
   def play_player_breaker
     computer_maker
-    until @turn_count >= 13 
+    until @turn_count >= 13
       puts "Turn: #{@turncount}"
       @player_breaker.player_input
       player_is_breaker
@@ -166,3 +166,64 @@ class Board
   end
 end
 
+# Player is the code breaker
+class PlayerBreaker
+  include Masmind
+  attr_accessor :player_input_code
+
+  def initialize
+    @player_input_code = []
+  end
+end
+
+# Player is the code maker
+class PlayerMaker
+  include Masmind
+  attr_accessor :player_input_code, :ai_input_code
+
+  def initialize
+    @player_input_code = []
+    @ai_input_code = []
+  end
+
+  # First guess - all four values are the same
+  def first_guess
+    value = Masmind::RANGE.sample
+    i = 1
+    while i <= 4 do
+      @ai_input_code << value
+      i += 1
+    end
+    puts "Computer guessed: #{@ai_input_code}"
+  end
+
+  # Keep matches and picks a new random number for non-matches
+  def solve
+    new_guess = []
+    i = 0
+    while i <= 3 do
+      if @player_input_code[i] == @ai_input_code[i]
+        new_guess << @player_input_code[i]
+      else
+        new_guess << Masmind::RANGE.sample
+      end
+      i += 1
+    end
+    @ai_input_code = new_guess
+    puts "Computer guessed: #{@ai_input_code}"
+  end
+end
+
+# Instructions for the game
+puts 'Welcome to Mastermind: a code breaking game between you and the computer!'
+puts 'You will either be the code maker or the code breaker.'
+puts 'The code maker will create a code of four numbers between 1 and 6.'
+puts 'The code breaker will try to guess the code in 12 turns, receiving feedback on each guess.'
+puts "The feedback will include the number of matches and partial matches, match = 'correct value and position:' partial = 'correct value, wrong position'"
+puts 'The game will end when the code breaker guesses the code or runs out of turns.'
+puts 'Good luck!'
+puts "\r\n"
+
+game = Game.new
+game.board.decide_play_method
+game.play_again
