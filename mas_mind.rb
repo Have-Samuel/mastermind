@@ -66,7 +66,43 @@ class Board
   # if player is maker, set instance variables and call player_input method
   def player_is_maker
     @maker_board = @player_maker.player_input_code
+    @breaker_board = @player_breaker.ai_input_code
   end
 
-  
+  # Computer generated code
+  def computer_maker
+    i = 1
+    while i <= 4 do
+      val = Masmind::RANGE.sample
+      @maker_board << val
+      i += 1
+    end
+  end
+
+  # Check if there is a correct code guess
+  def check_winner
+    if @maker_board == @breaker_board
+      @turn_count = 13
+      @winner = true
+    end
+  end
+
+  # Check for any matches or partials
+  def check_match_partial
+    @match = 0
+    @partial = 0
+    @breaker_board.each_with_index do |num, idx|
+      @breaker_board.each_with_index do |num2, idx2|
+        if num == num2 && idx == idx2
+          @match += 1
+        elsif num == num2 && idx != idx2
+          @partial += 1
+        end
+      end
+    end
+
+    puts "Match: #{@match}"
+    puts "Partial: #{@partial}"
+    puts "\r\n"
+  end
 end
