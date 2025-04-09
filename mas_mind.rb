@@ -78,9 +78,9 @@ class Board
       i += 1
     end
   end
-  
+
   # Check if there is a correct code guess
-  def Check_winner
+  def check_winner
     if @maker_board == @breaker_board
       @turn_count = 13
       @winner = true
@@ -88,7 +88,7 @@ class Board
   end
 
   # Check for any matches or partials
-  def Check_match_partial
+  def check_match_partial
     @match = 0
     @partial = 0
     @breaker_board.each_with_index do |num, idx|
