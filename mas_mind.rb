@@ -5,12 +5,12 @@ module Masmind
   def player_input
     puts 'Please enter a number between 1 and 6 in a row on one line:'
     input = gets.chomp
-    input.ascii = input.each_byte.to_a
+    input_ascii = input.each_byte.to_a
 
-    until input.length == 4 && input.ascii.all? { |num| num >= 49 && num <= 54 }
+    until input.length == 4 && input_ascii.all? { |num| num >= 49 && num <= 54 }
       puts 'Make sure you have entered a valid code!'
       input = gets.chomp
-      input.ascii = input.each_byte.to_a
+      input_ascii = input.each_byte.to_a
     end
     @player_input_code = input.split
   end
@@ -43,7 +43,7 @@ end
 
 class Board
   include Masmind
-  attr_accessor :maker_board, :breaker, @turn_count
+  attr_accessor :maker_board, :turn_count, :breaker
 
   def initialize
     @maker_board = []
@@ -66,13 +66,13 @@ class Board
   # if player is maker, set instance variables and call player_input method
   def player_is_maker
     @maker_board = @player_maker.player_input_code
-    @breaker_board = @player_breaker.ai_input_code
+    @breaker_board = @player_maker.ai_input_code
   end
 
   # Computer generated code
   def computer_maker
     i = 1
-    while i <= 4 do
+    while i <= 4
       val = Masmind::RANGE.sample
       @maker_board << val
       i += 1
@@ -91,7 +91,7 @@ class Board
   def check_match_partial
     @match = 0
     @partial = 0
-    @breaker_board.each_with_index do |num, idx|
+    @maker_board.each_with_index do |num, idx|
       @breaker_board.each_with_index do |num2, idx2|
         if num == num2 && idx == idx2
           @match += 1
@@ -137,7 +137,7 @@ class Board
   def play_player_breaker
     computer_maker
     until @turn_count >= 13
-      puts "Turn: #{@turncount}"
+      puts "Turn: #{@turn_count}"
       @player_breaker.player_input
       player_is_breaker
       check_winner
@@ -154,7 +154,7 @@ class Board
     check_match_partial
     @turn_count += 1
     until @turn_count >= 13
-      puts "Turn: #{@turncount}"
+      puts "Turn: #{@turn_count}"
       @player_maker.solve
       player_is_maker
       check_winner
@@ -190,7 +190,7 @@ class PlayerMaker
   def first_guess
     value = Masmind::RANGE.sample
     i = 1
-    while i <= 4 do
+    while i <= 4
       @ai_input_code << value
       i += 1
     end
