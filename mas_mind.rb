@@ -6,7 +6,7 @@ module Masmind
     puts 'Please enter a number between 1 and 6 in a row on one line:'
     input = gets.chomp
     input_ascii = input.each_byte.to_a
-
+    # With the ASCII values of the input, check if the input is valid. The ascii start from 49 to 54 meaning 1 to 6 for this case, eg '1234' => [49, 50, 51, 52] and '3452' => [51, 52, 53, 50]
     until input.length == 4 && input_ascii.all? { |num| num >= 49 && num <= 54 }
       puts 'Make sure you have entered a valid code!'
       input = gets.chomp
