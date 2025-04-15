@@ -4,7 +4,7 @@ module Masmind
 
   def player_input
     puts 'Please enter a number between 1 and 6 in a row on one line:'
-    input = gets.chomp
+    input = gets.chomp # chomp removes the newline character and returns the string which is assigned to input
     input_ascii = input.each_byte.to_a
     # With the ASCII values of the input, check if the input is valid. The ascii start from 49 to 54 meaning 1 to 6 for this case, eg '1234' => [49, 50, 51, 52] and '3452' => [51, 52, 53, 50]
     until input.length == 4 && input_ascii.all? { |num| num >= 49 && num <= 54 }
@@ -12,6 +12,7 @@ module Masmind
       input = gets.chomp
       input_ascii = input.each_byte.to_a
     end
+    # Once you get the code, we call the split method to convert it into an array of strings, eg '1234' => ['1', '2', '3', '4']
     @player_input_code = input.split
   end
 end
@@ -29,10 +30,12 @@ class Game
     answer = gets.chomp
     case answer
     when 'y', 'Y'
+      # If the answer is yes, then it will whip out the old game creating a new board
       @board = Board.new
       @board.decide_play_method
       play_again
     else
+      # If the answer is no or anything else, then it will exit the game
       puts 'Thanks for playing!'
     end
   end
