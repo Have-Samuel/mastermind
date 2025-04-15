@@ -104,7 +104,7 @@ class Board
         end
       end
     end
-
+    # This below is what displays in our game as match and partial feedback
     puts "Match: #{@match}"
     puts "Partial: #{@partial}"
     puts "\r\n"
@@ -114,6 +114,7 @@ class Board
   def result
     case @player_choice
     when '1'
+      # if not 1 then it is 2, so the player is the maker
       if @winner == true
         puts 'Congratulations, you solved it!'
       else
