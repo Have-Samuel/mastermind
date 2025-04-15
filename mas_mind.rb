@@ -84,10 +84,10 @@ class Board
 
   # Check if there is a correct code guess
   def check_winner
-    if @maker_board == @breaker_board
-      @turn_count = 13
-      @winner = true
-    end
+    return unless @maker_board == @breaker_board
+    # Why set @turn_count to 13? => Because the game ends at 12 turns, so if the player wins, we set it to 13 to exit the loop
+    @turn_count = 13
+    @winner = true
   end
 
   # Check for any matches or partials
