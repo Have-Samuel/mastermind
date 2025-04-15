@@ -96,6 +96,7 @@ class Board
     @partial = 0
     @maker_board.each_with_index do |num, idx|
       @breaker_board.each_with_index do |num2, idx2|
+        # We are having two arrays of equal lengths, and the first index is compared to all the values in the second array, this is repeated for all the values in the second array. To get the workie matches and pairtials
         if num == num2 && idx == idx2
           @match += 1
         elsif num == num2 && idx != idx2
